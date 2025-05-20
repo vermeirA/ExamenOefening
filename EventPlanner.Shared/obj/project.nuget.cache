@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "5JqbrdiwAe4=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Gebruiker\\Desktop\\Graduaat\\SEM3\\PG2\\ExamenOefening\\EventPlanner.Shared\\EventPlanner.Shared.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Gebruiker\\.nuget\\packages\\mongodb.bson\\3.4.0\\mongodb.bson.3.4.0.nupkg.sha512",
+    "C:\\Users\\Gebruiker\\.nuget\\packages\\system.memory\\4.5.5\\system.memory.4.5.5.nupkg.sha512",
+    "C:\\Users\\Gebruiker\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\5.0.0\\system.runtime.compilerservices.unsafe.5.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}

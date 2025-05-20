@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\EventPlanner.Api.Contracts\EventPlanner.Api.Contracts.csproj" />
+    <ProjectReference Include="..\EventPlanner.Api.Persistence\EventPlanner.Api.Persistence.csproj" />
+    <ProjectReference Include="..\EventPlanner.Api.Services\EventPlanner.Api.Services.csproj" />
+    <ProjectReference Include="..\EventPlanner.Shared\EventPlanner.Shared.csproj" />
+  </ItemGroup>
+
+</Project>
