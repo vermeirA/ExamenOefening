@@ -16,7 +16,7 @@ namespace EventPlanner.Api.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult> GetById(int id)
+        public async Task<ActionResult> GetByIdAsync(int id)
         {
             var evenement = await evenementService.GetByIdAsync(id);
             if (evenement == null)
@@ -25,10 +25,10 @@ namespace EventPlanner.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Create([FromBody] EvenementRequestContract request)
+        public async Task<ActionResult> CreateAsync([FromBody] EvenementRequestContract request)
         {
             var createdEvenement = await evenementService.AddAsync(request);
-            return CreatedAtAction(nameof(GetById), new { id = createdEvenement.Id }, createdEvenement);
+            return CreatedAtAction(nameof(GetByIdAsync), new { id = createdEvenement.Id }, createdEvenement);
         }
 
         [HttpPut("{id}")]

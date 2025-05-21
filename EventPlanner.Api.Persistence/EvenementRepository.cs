@@ -17,7 +17,7 @@ public interface IEvenementRepository
     Task<OverzichtRapportDto> GetOverzichtRapportAsync(int id);
 }
 
-public class EvenementRepository(EventPlannerDbContext dbContext, IDbConnection dbConnection) : IEvenementRepository
+public class EvenementRepository(EventPlannerDbContext dbContext) : IEvenementRepository
 {
     public async Task<Evenement> AddAsync(Evenement evenement)
     {
@@ -94,8 +94,8 @@ LEFT JOIN Taken t ON t.EvenementId = e.Id
 WHERE e.Id = @Id
 GROUP BY e.Id, e.Naam, l.Id, l.Naam;
         ";
-
-        return await dbConnection.QuerySingleAsync<OverzichtRapportDto>(sql, new
+        
+        return await dbContext.Database.GetDbConnection().QuerySingleAsync<OverzichtRapportDto>(sql, new
         {
             Id = id,
             DoneStatus = (int)StatusEnum.Done,

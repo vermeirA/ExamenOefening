@@ -15,13 +15,15 @@ builder.Services.AddScoped<IEvenementRepository, EvenementRepository>();
 builder.Services.AddScoped<ILocatieService, LocatieService>();
 builder.Services.AddScoped<ITaakService, TaakService>();
 builder.Services.AddScoped<IEvenementService, EvenementService>();
-builder.Services.AddScoped<IDbConnection>(sp =>
-    new MySqlConnection(builder.Configuration.GetConnectionString("MySql")));
-var connectionString = builder.Configuration.GetConnectionString("MySql");
 
+var connectionString = builder.Configuration.GetConnectionString("MySql");
 builder.Services.AddDbContext<EventPlannerDbContext>(options =>
     options.UseMySql(connectionString, new MySqlServerVersion(ServerVersion.AutoDetect(connectionString))));
-builder.Services.AddControllers();
+
+builder.Services.AddControllers().AddMvcOptions(options => {
+    options.SuppressAsyncSuffixInActionNames = false; 
+});
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
