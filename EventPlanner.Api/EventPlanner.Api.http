@@ -1,6 +1,68 @@
-@EventPlanner.Api_HostAddress = http://localhost:5207
-
-GET {{EventPlanner.Api_HostAddress}}/weatherforecast/
+### Locaties
+### - GetAll
+GET https://localhost:7158/api/locaties
 Accept: application/json
 
-###
+### - Get
+GET https://localhost:7158/api/locaties/1
+Accept: application/json
+
+### - Post
+POST https://localhost:7158/api/locaties
+Content-Type: application/json
+Accept: application/json
+
+{
+    "Naam": "Kasteel",
+    "Beschrijving": "Een groot kasteel",
+    "GpsLat": 45.75,
+    "GpsLon": 4.04
+}
+
+### Evenementen 
+### - GetAll
+GET https://localhost:7158/api/evenementen
+Accept: application/json
+
+### - Get
+GET https://localhost:7158/api/evenementen/1
+Accept: application/json
+
+### - Post
+POST https://localhost:7158/api/evenementen
+Content-Type: application/json
+Accept: application/json
+
+{
+  "Naam": "Het Evenement",
+  "LocatieId": 1,
+  "StartDateTime": "2025-06-23T00:00:00.000Z",
+  "EindDateTime": "2025-06-24T00:00:00.000Z"
+}
+
+
+### Taken 
+### - GetAll
+GET https://localhost:7158/api/taken
+Accept: application/json
+
+### - Get
+GET https://localhost:7158/api/taken/1
+Accept: application/json
+
+### - Post
+POST https://localhost:7158/api/taken
+Content-Type: application/json
+Accept: application/json
+
+{
+  "EvenementId" : 1,
+  "Naam": "De Taak",
+  "Beschrijving" : "De Uitleg",
+  "Belangrijkheid": "Should",
+  "Status": "Doing"
+}
+
+### Audit
+GET https://localhost:7158/api/audit
+Accept: application/json
