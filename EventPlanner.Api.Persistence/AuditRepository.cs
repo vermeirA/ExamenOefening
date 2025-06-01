@@ -1,7 +1,7 @@
 using System;
 using EventPlanner.Shared;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using MongoDB.Driver;
 
 namespace EventPlanner.Api.Persistence;
 
@@ -13,14 +13,13 @@ public interface IAuditRepository
 
 public class AuditRepository : IAuditRepository
 {
-    private readonly IMongoCollection<AuditEntry> _collection;
+    private readonly AuditDbContext _context;
 
-    public AuditRepository(IConfiguration config)
+    public AuditRepository(AuditDbContext context)
     {
-        var client = new MongoClient(config.GetConnectionString("MongoDb"));
-        var db = client.GetDatabase("eventplanner_audit");
-        _collection = db.GetCollection<AuditEntry>("auditlog");
+        _context = context;
     }
+
     public async Task LogEventAsync(string onderwerp, string actie, string oudeWaarde, string nieuweWaarde)
     {
         var entry = new AuditEntry
@@ -30,19 +29,21 @@ public class AuditRepository : IAuditRepository
             OudeWaarde = oudeWaarde,
             NieuweWaarde = nieuweWaarde
         };
-        await _collection.InsertOneAsync(entry);
+
+        await _context.AuditLogs.AddAsync(entry);
+        await _context.SaveChangesAsync();
     }
 
     public async Task<List<AuditEntry>> FilterAsync(string? onderwerp, string? actie)
     {
-        var filter = Builders<AuditEntry>.Filter.Empty;
+        IQueryable<AuditEntry> query = _context.AuditLogs;
 
         if (!string.IsNullOrEmpty(onderwerp))
-            filter &= Builders<AuditEntry>.Filter.Eq(a => a.Onderwerp, onderwerp);
+            query = query.Where(a => a.Onderwerp == onderwerp);
 
         if (!string.IsNullOrEmpty(actie))
-            filter &= Builders<AuditEntry>.Filter.Eq(a => a.Actie, actie);
+            query = query.Where(a => a.Actie == actie);
 
-        return await _collection.Find(filter).ToListAsync();
+        return await query.ToListAsync();
     }
 }

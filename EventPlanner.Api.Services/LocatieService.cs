@@ -57,9 +57,17 @@ public class LocatieService(ILocatieRepository locatieRepository, IAuditService 
         {
             throw new ArgumentException($"Locatie met id {id} bestaat niet.");
         }
+
         var oudeWaarde = locatieToUpdate.AsResponseContract();
-        var nieuweWaarde = (await locatieRepository.UpdateAsync(locatie.AsModel(id))).AsResponseContract();
-        //create audit log
+
+        // fix put
+        locatieToUpdate.Naam = locatie.Naam;
+        locatieToUpdate.Beschrijving = locatie.Beschrijving;
+        locatieToUpdate.GpsLat = locatie.GpsLat;
+        locatieToUpdate.GpsLon = locatie.GpsLon;
+
+        var nieuweWaarde = (await locatieRepository.UpdateAsync(locatieToUpdate)).AsResponseContract();
+
         await auditService.LogEventAsync("Locatie", "U", oudeWaarde, nieuweWaarde);
         return nieuweWaarde;
     }

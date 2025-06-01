@@ -16,12 +16,16 @@ builder.Services.AddScoped<ILocatieService, LocatieService>();
 builder.Services.AddScoped<ITaakService, TaakService>();
 builder.Services.AddScoped<IEvenementService, EvenementService>();
 
-var connectionString = builder.Configuration.GetConnectionString("MySql");
+var connectionStringSql = builder.Configuration.GetConnectionString("MySql");
+var connectionStringMongo = builder.Configuration.GetConnectionString("MongoDb");
 builder.Services.AddDbContext<EventPlannerDbContext>(options =>
-    options.UseMySql(connectionString, new MySqlServerVersion(ServerVersion.AutoDetect(connectionString))));
+    options.UseMySql(connectionStringSql, new MySqlServerVersion(ServerVersion.AutoDetect(connectionStringSql))));
+builder.Services.AddDbContext<AuditDbContext>(options =>
+    options.UseMongoDB(connectionStringMongo, "eventplanner_audit"));
 
-builder.Services.AddControllers().AddMvcOptions(options => {
-    options.SuppressAsyncSuffixInActionNames = false; 
+builder.Services.AddControllers().AddMvcOptions(options =>
+{
+    options.SuppressAsyncSuffixInActionNames = false;
 });
 
 var app = builder.Build();
